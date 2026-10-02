@@ -24,7 +24,6 @@ public sealed class DeskSharePrincipalFactory(
         {
             new(DeskShareClaimTypes.EmployeeId, employeeId.ToString()),
             new(ClaimTypes.Name, identity.DisplayName),
-            new(ClaimTypes.Email, identity.Email),
             new(ClaimTypes.Role, Roles.Employee),
         };
 

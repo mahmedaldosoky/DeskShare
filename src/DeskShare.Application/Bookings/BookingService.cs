@@ -30,7 +30,7 @@ public sealed class BookingService(
         return mapper.Map<IReadOnlyList<BookingDto>>(bookingsOnDate);
     }
 
-    public async Task<BookingDto> CreateAsync(SaveBookingRequest request, CancellationToken cancellationToken)
+    public async Task<BookingDto> CreateAsync(CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var desk = await GetExistingDeskAsync(request.DeskId, cancellationToken);
         var employee = await GetCurrentEmployeeAsync(cancellationToken);

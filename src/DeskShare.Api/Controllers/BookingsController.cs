@@ -21,7 +21,7 @@ public sealed class BookingsController(BookingService bookingService) : Controll
         bookingService.GetAllOnDateAsync(date, cancellationToken);
 
     [HttpPost]
-    public async Task<IActionResult> Create(SaveBookingRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var booking = await bookingService.CreateAsync(request, cancellationToken);
         return StatusCode(StatusCodes.Status201Created, booking);

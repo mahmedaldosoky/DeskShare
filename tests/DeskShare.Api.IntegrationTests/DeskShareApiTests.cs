@@ -127,7 +127,7 @@ public sealed class DeskShareApiTests(DeskShareApiFactory factory) : IClassFixtu
         var desk = await CreateDeskAsync(manager, "T-200");
 
         await BookAsync(first, desk.Id, NextWeek);
-        var response = await second.PostAsJsonAsync("/api/bookings", new SaveBookingRequest(desk.Id, NextWeek));
+        var response = await second.PostAsJsonAsync("/api/bookings", new CreateBookingRequest(desk.Id, NextWeek));
 
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
     }
@@ -197,7 +197,7 @@ public sealed class DeskShareApiTests(DeskShareApiFactory factory) : IClassFixtu
 
     private static async Task<BookingDto> BookAsync(HttpClient employee, Guid deskId, DateOnly date)
     {
-        var response = await employee.PostAsJsonAsync("/api/bookings", new SaveBookingRequest(deskId, date));
+        var response = await employee.PostAsJsonAsync("/api/bookings", new CreateBookingRequest(deskId, date));
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         return (await response.Content.ReadFromJsonAsync<BookingDto>(JsonOptions))!;
     }

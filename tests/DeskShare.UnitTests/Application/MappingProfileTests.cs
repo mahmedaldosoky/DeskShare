@@ -33,6 +33,6 @@ public sealed class MappingProfileTests
 
         var dto = TestMapper.Instance.Map<BookingDto>(booking);
 
-        Assert.Equal(new BookingDto(booking.Id, today, desk.Id, "B-201", 2, "Sara Ali"), dto);
+        Assert.Equal(new BookingDto(booking.Id, today, "B-201", 2, "Sara Ali"), dto);
     }
 }

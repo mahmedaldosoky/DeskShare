@@ -42,7 +42,7 @@ public sealed class BookingServiceTests
     [Fact]
     public async Task Create_BooksFreeDeskForCurrentEmployee()
     {
-        var booking = await _service.CreateAsync(new SaveBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None);
+        var booking = await _service.CreateAsync(new CreateBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None);
 
         Assert.Equal(_sara.Id, _store.Bookings.Single().EmployeeId);
         Assert.Equal("A-101", booking.DeskCode);
@@ -56,7 +56,7 @@ public sealed class BookingServiceTests
         AddBooking(_deskA, _omar, Tomorrow);
 
         await Assert.ThrowsAsync<ConflictException>(() =>
-            _service.CreateAsync(new SaveBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None));
+            _service.CreateAsync(new CreateBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None));
     }
 
     [Fact]
@@ -65,14 +65,14 @@ public sealed class BookingServiceTests
         AddBooking(_deskA, _sara, Tomorrow);
 
         await Assert.ThrowsAsync<ConflictException>(() =>
-            _service.CreateAsync(new SaveBookingRequest(_deskB.Id, Tomorrow), CancellationToken.None));
+            _service.CreateAsync(new CreateBookingRequest(_deskB.Id, Tomorrow), CancellationToken.None));
     }
 
     [Fact]
     public async Task Create_RejectsPastDate()
     {
         await Assert.ThrowsAsync<BusinessRuleException>(() =>
-            _service.CreateAsync(new SaveBookingRequest(_deskA.Id, Today.AddDays(-1)), CancellationToken.None));
+            _service.CreateAsync(new CreateBookingRequest(_deskA.Id, Today.AddDays(-1)), CancellationToken.None));
         Assert.Empty(_store.Bookings);
     }
 
@@ -80,7 +80,7 @@ public sealed class BookingServiceTests
     public async Task Create_RejectsUnknownDesk()
     {
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            _service.CreateAsync(new SaveBookingRequest(Guid.NewGuid(), Tomorrow), CancellationToken.None));
+            _service.CreateAsync(new CreateBookingRequest(Guid.NewGuid(), Tomorrow), CancellationToken.None));
     }
 
     [Fact]

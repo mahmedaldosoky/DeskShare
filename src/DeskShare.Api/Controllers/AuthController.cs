@@ -27,7 +27,6 @@ public sealed class AuthController(IOptions<DeskShareAuthenticationOptions> opti
 
         var sessionUser = new SessionUser(
             User.Identity.Name ?? string.Empty,
-            User.FindFirstValue(ClaimTypes.Email) ?? string.Empty,
             User.FindAll(ClaimTypes.Role).Select(claim => claim.Value).ToList());
 
         return new SessionResponse(Mode, sessionUser);

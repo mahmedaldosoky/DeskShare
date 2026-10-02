@@ -67,7 +67,7 @@ DeskShare.Api ──► DeskShare.Application ──► DeskShare.Domain
 - **Single responsibility.** `BookingService` owns the booking use cases. `UnitOfWork` only commits and translates DB constraint errors. `DeskSharePrincipalFactory` only builds the cookie principal. `MappingProfile` is the one place entities become DTOs.
 - **Open/closed.** A new identity provider is configuration (claim names, authority), not code. A new error type is one line in `ApplicationExceptionHandler`.
 - **Liskov.** Unit tests swap EF repositories for in-memory ones and the services behave the same.
-- **Interface segregation.** `ICurrentUser` exposes only `EmployeeId`. Each repository has only the queries its use cases need.
+- **Interface segregation.** `ICurrentUser` exposes only the signed-in employee's id. Each repository has only the queries its use cases need.
 - **Dependency inversion.** Application owns the interfaces and Infrastructure implements them. Time comes from `TimeProvider`, so "today" is testable. Interfaces exist only where there is a real second implementation (EF vs. in-memory fakes, HTTP vs. fake user); use-case services are injected directly.
 
 ### Enforcing the rules

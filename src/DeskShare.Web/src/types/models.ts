@@ -17,13 +17,12 @@ export interface SaveDeskRequest {
 export interface Booking {
   id: string;
   date: string;
-  deskId: string;
   deskCode: string;
   deskFloor: number;
   employeeName: string;
 }
 
-export interface SaveBookingRequest {
+export interface CreateBookingRequest {
   deskId: string;
   date: string;
 }
@@ -33,7 +32,6 @@ export type SignInMode = 'Development' | 'Oidc';
 
 export interface SessionUser {
   displayName: string;
-  email: string;
   roles: Role[];
 }
 

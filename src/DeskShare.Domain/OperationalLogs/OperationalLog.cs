@@ -3,10 +3,8 @@ using System.Text;
 
 namespace DeskShare.Domain.OperationalLogs;
 
-/// <summary>
-/// One row per distinct error: the same exception type thrown from the same method shares a fingerprint,
-/// so repeats only increase <see cref="OccurrenceCount"/> instead of adding rows.
-/// </summary>
+// One row per distinct error: the same exception type thrown from the same method shares a fingerprint,
+// so repeats only increase OccurrenceCount instead of adding rows.
 public sealed class OperationalLog
 {
     public string Fingerprint { get; private set; } = string.Empty;

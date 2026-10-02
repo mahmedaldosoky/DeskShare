@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace DeskShare.Api.ErrorHandling;
 
-/// <summary>
-/// Records unexpected exceptions in the OperationalLogs table, then lets the next handler write the response.
-/// </summary>
+// Records unexpected exceptions in the OperationalLogs table, then lets the next handler write the response.
 public sealed class OperationalLogExceptionHandler(
     IServiceScopeFactory scopeFactory,
     TimeProvider timeProvider,

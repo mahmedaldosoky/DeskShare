@@ -3,9 +3,7 @@ using DeskShare.Application.Employees;
 
 namespace DeskShare.Api.Authentication;
 
-/// <summary>
-/// Turns a signed-in person (from SSO or the development form) into the user stored in the DeskShare cookie.
-/// </summary>
+// Turns a signed-in person (from SSO or the development form) into the user stored in the DeskShare cookie.
 public sealed class UserSignIn(EmployeeProvisioningService employeeProvisioning)
 {
     public async Task<ClaimsPrincipal> CreatePrincipalAsync(

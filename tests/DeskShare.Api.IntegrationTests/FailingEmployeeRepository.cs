@@ -3,7 +3,7 @@ using DeskShare.Domain.Employees;
 
 namespace DeskShare.Api.IntegrationTests;
 
-/// <summary>Simulates a broken dependency so sign-in fails with an unexpected 500.</summary>
+// Simulates a broken dependency so sign-in fails with an unexpected 500.
 internal sealed class FailingEmployeeRepository : IEmployeeRepository
 {
     public Task<Employee?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>

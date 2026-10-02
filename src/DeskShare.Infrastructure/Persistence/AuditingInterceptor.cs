@@ -6,9 +6,6 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DeskShare.Infrastructure.Persistence;
 
-/// <summary>
-/// Fills the audit fields of every saved entity.
-/// </summary>
 internal sealed class AuditingInterceptor(ICurrentUser currentUser, TimeProvider timeProvider) : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)

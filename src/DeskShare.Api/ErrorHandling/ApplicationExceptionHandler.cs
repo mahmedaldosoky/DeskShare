@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace DeskShare.Api.ErrorHandling;
 
-/// <summary>Translates expected business errors into RFC 7807 problem responses.</summary>
+// Translates expected business errors into RFC 7807 problem responses.
 public sealed class ApplicationExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(

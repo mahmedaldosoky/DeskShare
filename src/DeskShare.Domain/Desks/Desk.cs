@@ -8,7 +8,7 @@ public sealed class Desk : AuditedEntity
     public int Floor { get; private set; }
     public DeskFeatures Features { get; private set; }
 
-    /// <summary>Deleted desks are kept so that past bookings still show which desk was used.</summary>
+    // Deleted desks are kept so that past bookings still show which desk was used.
     public bool IsDeleted { get; private set; }
 
     private Desk()

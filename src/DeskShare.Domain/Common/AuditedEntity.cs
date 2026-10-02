@@ -1,6 +1,6 @@
 namespace DeskShare.Domain.Common;
 
-/// <summary>Creation and modification audit fields, filled in automatically when changes are saved.</summary>
+// Filled in automatically when changes are saved.
 public abstract class AuditedEntity : Entity
 {
     public DateTime CreationTime { get; private set; }

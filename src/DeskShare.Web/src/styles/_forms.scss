@@ -1,0 +1,53 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: space(1);
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $color-muted;
+  }
+
+  &__input {
+    padding: space(2) space(3);
+    border: 1px solid $color-border;
+    border-radius: $radius-small;
+    background: $color-surface;
+    color: $color-text;
+    font: inherit;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+  cursor: pointer;
+
+  input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: $color-orange;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: space(2);
+  margin-top: space(2);
+}
+
+fieldset.field {
+  margin: 0;
+  padding: 0;
+  border: none;
+}

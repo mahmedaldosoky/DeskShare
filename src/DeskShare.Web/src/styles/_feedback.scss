@@ -1,0 +1,54 @@
+@use 'tokens' as *;
+
+.alert {
+  padding: space(3) space(4);
+  border-radius: $radius-small;
+  border-left: 4px solid currentColor;
+
+  &--error {
+    color: $color-danger;
+    background: rgba($color-danger, 0.08);
+  }
+
+  &--success {
+    color: $color-success;
+    background: rgba($color-success, 0.08);
+  }
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px space(2);
+  border-radius: 999px;
+  background: rgba($color-navy, 0.08);
+  color: $color-navy;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &--highlight {
+    background: $color-orange;
+    color: #fff;
+  }
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(1);
+}
+
+.page-message {
+  padding: space(8);
+  text-align: center;
+  color: $color-muted;
+
+  &--error {
+    color: $color-danger;
+  }
+}
+
+.empty-state {
+  padding: space(8) space(4);
+  text-align: center;
+  color: $color-muted;
+}

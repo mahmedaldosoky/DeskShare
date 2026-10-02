@@ -1,0 +1,42 @@
+@use '../styles/tokens' as *;
+@use '../styles/mixins' as *;
+
+.dialog {
+  @include card;
+  width: min(440px, calc(100vw - #{space(8)}));
+  padding: space(6);
+
+  &::backdrop {
+    background: rgba($color-navy, 0.45);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: space(4);
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
+.close {
+  border: none;
+  background: none;
+  color: $color-muted;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

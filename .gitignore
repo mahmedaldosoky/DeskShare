@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# DeskShare
+node_modules/
+src/DeskShare.Api/wwwroot/
+*.db
+*.db-shm
+*.db-wal

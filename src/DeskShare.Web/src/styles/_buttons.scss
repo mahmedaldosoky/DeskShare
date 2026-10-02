@@ -1,0 +1,66 @@
+@use 'sass:color';
+@use 'sass:list';
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+$button-variants: (
+  'primary': ($color-orange, #fff),
+  'secondary': ($color-navy, #fff),
+  'danger': ($color-danger, #fff),
+);
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space(2);
+  padding: space(2) space(4);
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  background: $color-surface;
+  color: $color-text;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $color-muted;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  @each $name, $colors in $button-variants {
+    $background: list.nth($colors, 1);
+
+    &--#{$name} {
+      background: $background;
+      border-color: $background;
+      color: list.nth($colors, 2);
+
+      &:hover:not(:disabled) {
+        background: color.adjust($background, $lightness: -8%);
+        border-color: color.adjust($background, $lightness: -8%);
+      }
+    }
+  }
+
+  &--small {
+    padding: space(1) space(3);
+    font-size: 0.875rem;
+  }
+
+  &--link {
+    border-color: transparent;
+    background: transparent;
+    color: $color-navy-light;
+    padding-inline: space(2);
+  }
+}

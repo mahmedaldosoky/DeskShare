@@ -1,0 +1,90 @@
+@use '../styles/tokens' as *;
+@use '../styles/mixins' as *;
+
+.shell {
+  min-height: 100vh;
+}
+
+.header {
+  background: $color-navy;
+  color: #fff;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  gap: space(6);
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: space(3) space(4);
+
+  @include below($breakpoint-medium) {
+    flex-wrap: wrap;
+    gap: space(3);
+  }
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brandAccent {
+  color: $color-orange;
+}
+
+.navigation {
+  display: flex;
+  gap: space(1);
+  flex: 1;
+
+  @include below($breakpoint-medium) {
+    order: 3;
+    flex-basis: 100%;
+    overflow-x: auto;
+  }
+}
+
+.navLink {
+  padding: space(2) space(3);
+  border-radius: $radius-small;
+  color: rgba(#fff, 0.75);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &:hover {
+    color: #fff;
+    background: rgba(#fff, 0.08);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.navLinkActive {
+  color: #fff;
+  background: rgba($color-orange, 0.25);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  margin-left: auto;
+}
+
+.userName {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+  font-size: 0.9rem;
+}
+
+.content {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: space(6) space(4);
+}

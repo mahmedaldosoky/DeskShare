@@ -1,0 +1,41 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.data-table {
+  @include card;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+
+  th,
+  td {
+    padding: space(3) space(4);
+    text-align: left;
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    background: $color-background;
+    color: $color-muted;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  &__actions {
+    text-align: right !important;
+    white-space: nowrap;
+  }
+
+  @include below($breakpoint-medium) {
+    th,
+    td {
+      padding: space(2);
+    }
+  }
+}

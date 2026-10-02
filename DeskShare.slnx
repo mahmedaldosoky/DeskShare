@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DeskShare.Api/DeskShare.Api.csproj" />
+    <Project Path="src/DeskShare.Application/DeskShare.Application.csproj" />
+    <Project Path="src/DeskShare.Domain/DeskShare.Domain.csproj" />
+    <Project Path="src/DeskShare.Infrastructure/DeskShare.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DeskShare.Api.IntegrationTests/DeskShare.Api.IntegrationTests.csproj" />
+    <Project Path="tests/DeskShare.UnitTests/DeskShare.UnitTests.csproj" />
+  </Folder>
+</Solution>

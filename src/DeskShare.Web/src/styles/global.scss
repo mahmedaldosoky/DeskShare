@@ -1,0 +1,28 @@
+@use 'tokens' as *;
+@use 'buttons';
+@use 'forms';
+@use 'feedback';
+@use 'tables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: $color-background;
+  color: $color-text;
+  font-family: $font-family;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: $color-navy;
+  line-height: 1.25;
+}

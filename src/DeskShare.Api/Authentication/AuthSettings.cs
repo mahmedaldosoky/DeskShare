@@ -9,22 +9,22 @@ public enum SignInMode
     Oidc,
 }
 
-/// <summary>The "Authentication" section of appsettings.json.</summary>
+/// <summary>The "Authentication" section of appsettings.json, which holds all the values.</summary>
 public sealed class AuthSettings
 {
     public const string SectionName = "Authentication";
 
-    public SignInMode Mode { get; init; } = SignInMode.Oidc;
+    public SignInMode Mode { get; init; }
 
     public string Authority { get; init; } = string.Empty;
     public string ClientId { get; init; } = string.Empty;
     public string ClientSecret { get; init; } = string.Empty;
 
     /// <summary>Members of this group get the Office Manager role.</summary>
-    public string OfficeManagerGroup { get; init; } = "DeskShare-OfficeManagers";
+    public string OfficeManagerGroup { get; init; } = string.Empty;
 
     // Identity providers name these claims differently (ADFS: "upn", "unique_name", "group").
-    public string EmailClaim { get; init; } = "email";
-    public string NameClaim { get; init; } = "name";
-    public string GroupsClaim { get; init; } = "groups";
+    public string EmailClaim { get; init; } = string.Empty;
+    public string NameClaim { get; init; } = string.Empty;
+    public string GroupsClaim { get; init; } = string.Empty;
 }

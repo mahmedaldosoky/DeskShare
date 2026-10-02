@@ -14,7 +14,8 @@ public static class AuthenticationSetup
         IHostEnvironment environment)
     {
         var section = configuration.GetSection(AuthSettings.SectionName);
-        var settings = section.Get<AuthSettings>() ?? new AuthSettings();
+        var settings = section.Get<AuthSettings>()
+            ?? throw new InvalidOperationException($"The '{AuthSettings.SectionName}' section is missing from appsettings.json.");
         EnsureSettingsAreValid(settings, environment);
 
         services.Configure<AuthSettings>(section);
@@ -101,8 +102,25 @@ public static class AuthenticationSetup
         if (settings.Mode == SignInMode.Development && !environment.IsDevelopment())
             throw new InvalidOperationException("Development sign-in can only be used in the Development environment.");
 
-        if (settings.Mode == SignInMode.Oidc &&
-            (string.IsNullOrWhiteSpace(settings.Authority) || string.IsNullOrWhiteSpace(settings.ClientId)))
-            throw new InvalidOperationException("Authentication:Authority and Authentication:ClientId are required for SSO.");
+        if (settings.Mode != SignInMode.Oidc)
+            return;
+
+        var requiredForSso = new Dictionary<string, string>
+        {
+            [nameof(settings.Authority)] = settings.Authority,
+            [nameof(settings.ClientId)] = settings.ClientId,
+            [nameof(settings.OfficeManagerGroup)] = settings.OfficeManagerGroup,
+            [nameof(settings.EmailClaim)] = settings.EmailClaim,
+            [nameof(settings.NameClaim)] = settings.NameClaim,
+            [nameof(settings.GroupsClaim)] = settings.GroupsClaim,
+        };
+
+        var missingKeys = requiredForSso
+            .Where(setting => string.IsNullOrWhiteSpace(setting.Value))
+            .Select(setting => $"{AuthSettings.SectionName}:{setting.Key}")
+            .ToList();
+
+        if (missingKeys.Count > 0)
+            throw new InvalidOperationException($"SSO needs these settings: {string.Join(", ", missingKeys)}.");
     }
 }

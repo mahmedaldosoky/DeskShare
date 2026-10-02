@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 
 namespace DeskShare.Api.IntegrationTests;
 
@@ -13,6 +14,10 @@ public sealed class DeskShareApiFactory : WebApplicationFactory<Program>
     {
         builder.UseEnvironment("Development");
         builder.UseSetting("ConnectionStrings:DeskShare", $"Data Source={_databasePath}");
+
+        // Tests sign in through dev-login, whatever SSO setup the developer keeps in user secrets.
+        builder.ConfigureAppConfiguration(configuration =>
+            configuration.AddInMemoryCollection(new Dictionary<string, string?> { ["Authentication:Mode"] = "Development" }));
     }
 
     public async Task<HttpClient> CreateSignedInClientAsync(string name, bool isOfficeManager = false)

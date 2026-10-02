@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup>
+    <UserSecretsId>4ef6c0c1-9888-4412-a0b6-fe84dcb2c94b</UserSecretsId>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\DeskShare.Application\DeskShare.Application.csproj" />
     <ProjectReference Include="..\DeskShare.Infrastructure\DeskShare.Infrastructure.csproj" />

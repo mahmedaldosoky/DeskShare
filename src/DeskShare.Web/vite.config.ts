@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const apiUrl = 'http://localhost:5266';
+// Keeping the original Host header lets the API build SSO redirect URIs on the dev server's origin.
+const apiProxy = { target: 'http://localhost:5266', changeOrigin: false };
 
 // The API is proxied so the browser sees a single origin and the auth cookie just works.
 export default defineConfig({
@@ -10,9 +11,9 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
-      '/api': apiUrl,
-      '/signin-oidc': apiUrl,
-      '/signout-callback-oidc': apiUrl,
+      '/api': apiProxy,
+      '/signin-oidc': apiProxy,
+      '/signout-callback-oidc': apiProxy,
     },
   },
   build: {

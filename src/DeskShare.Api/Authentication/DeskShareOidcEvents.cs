@@ -21,6 +21,14 @@ public sealed class DeskShareOidcEvents(
             context.HttpContext.RequestAborted);
     }
 
+    // Tokens are not saved, so there is no id_token_hint; the client id tells the provider
+    // which application's allowed logout URLs to check post_logout_redirect_uri against.
+    public override Task RedirectToIdentityProviderForSignOut(RedirectContext context)
+    {
+        context.ProtocolMessage.ClientId = context.Options.ClientId;
+        return Task.CompletedTask;
+    }
+
     private ExternalIdentity ReadIdentity(ClaimsPrincipal principal)
     {
         var subject = principal.FindFirstValue(_claimTypes.Subject)

@@ -22,18 +22,6 @@ public sealed class BookingTests
     }
 
     [Fact]
-    public void Reschedule_MovesDeskAndDate()
-    {
-        var booking = Booking.Create(_desk, _employee, Today);
-        var otherDesk = Desk.Create("B-201", 2, DeskFeatures.Window);
-
-        booking.Reschedule(otherDesk, Today.AddDays(3));
-
-        Assert.Equal(otherDesk.Id, booking.DeskId);
-        Assert.Equal(Today.AddDays(3), booking.Date);
-    }
-
-    [Fact]
     public void IsInPast_IsTrueOnlyAfterTheBookingDate()
     {
         var booking = Booking.Create(_desk, _employee, Today);

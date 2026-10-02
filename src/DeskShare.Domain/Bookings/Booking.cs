@@ -29,11 +29,4 @@ public sealed class Booking : AuditedEntity
     public bool IsOwnedBy(Guid employeeId) => EmployeeId == employeeId;
 
     public bool IsInPast(DateOnly today) => Date < today;
-
-    public void Reschedule(Desk desk, DateOnly date)
-    {
-        Desk = desk;
-        DeskId = desk.Id;
-        Date = date;
-    }
 }

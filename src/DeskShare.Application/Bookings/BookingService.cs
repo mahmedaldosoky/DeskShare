@@ -38,26 +38,9 @@ public sealed class BookingService(
         BookingDateRules.EnsureDateIsNotInPast(request.Date, timeProvider.GetLocalToday());
 
         var booking = Booking.Create(desk, employee, request.Date);
-        await EnsureSlotIsFreeAsync(booking, excludingBookingId: null, cancellationToken);
+        await EnsureSlotIsFreeAsync(booking, cancellationToken);
 
         bookings.Add(booking);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return mapper.Map<BookingDto>(booking);
-    }
-
-    public async Task<BookingDto> UpdateAsync(Guid id, SaveBookingRequest request, CancellationToken cancellationToken)
-    {
-        var booking = await GetOwnedBookingAsync(id, cancellationToken);
-        var desk = await GetExistingDeskAsync(request.DeskId, cancellationToken);
-
-        var today = timeProvider.GetLocalToday();
-        BookingDateRules.EnsureBookingCanBeChanged(booking, today);
-        BookingDateRules.EnsureDateIsNotInPast(request.Date, today);
-
-        booking.Reschedule(desk, request.Date);
-        await EnsureSlotIsFreeAsync(booking, excludingBookingId: booking.Id, cancellationToken);
-
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return mapper.Map<BookingDto>(booking);
@@ -66,18 +49,18 @@ public sealed class BookingService(
     public async Task CancelAsync(Guid id, CancellationToken cancellationToken)
     {
         var booking = await GetOwnedBookingAsync(id, cancellationToken);
-        BookingDateRules.EnsureBookingCanBeChanged(booking, timeProvider.GetLocalToday());
+        BookingDateRules.EnsureBookingCanBeCancelled(booking, timeProvider.GetLocalToday());
 
         bookings.Remove(booking);
         await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task EnsureSlotIsFreeAsync(Booking booking, Guid? excludingBookingId, CancellationToken cancellationToken)
+    private async Task EnsureSlotIsFreeAsync(Booking booking, CancellationToken cancellationToken)
     {
-        if (await bookings.IsDeskBookedAsync(booking.DeskId, booking.Date, excludingBookingId, cancellationToken))
+        if (await bookings.IsDeskBookedAsync(booking.DeskId, booking.Date, cancellationToken))
             throw new ConflictException($"This desk is already booked on {booking.Date:yyyy-MM-dd}.");
 
-        if (await bookings.HasEmployeeBookedAsync(booking.EmployeeId, booking.Date, excludingBookingId, cancellationToken))
+        if (await bookings.HasEmployeeBookedAsync(booking.EmployeeId, booking.Date, cancellationToken))
             throw new ConflictException($"You already have a desk booked on {booking.Date:yyyy-MM-dd}.");
     }
 
@@ -87,7 +70,7 @@ public sealed class BookingService(
             ?? throw new NotFoundException("Booking", id);
 
         if (!booking.IsOwnedBy(currentUser.EmployeeId))
-            throw new ForbiddenException("You can only change your own bookings.");
+            throw new ForbiddenException("You can only cancel your own bookings.");
 
         return booking;
     }

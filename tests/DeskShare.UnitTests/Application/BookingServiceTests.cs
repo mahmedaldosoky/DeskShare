@@ -84,55 +84,6 @@ public sealed class BookingServiceTests
     }
 
     [Fact]
-    public async Task Update_AllowsKeepingTheSameDeskAndDate()
-    {
-        var booking = AddBooking(_deskA, _sara, Tomorrow);
-
-        var updated = await _service.UpdateAsync(
-            booking.Id, new SaveBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None);
-
-        Assert.Equal(booking.Id, updated.Id);
-    }
-
-    [Fact]
-    public async Task Update_MovesBookingToAnotherDesk()
-    {
-        var booking = AddBooking(_deskA, _sara, Tomorrow);
-
-        var updated = await _service.UpdateAsync(
-            booking.Id, new SaveBookingRequest(_deskB.Id, Tomorrow), CancellationToken.None);
-
-        Assert.Equal(_deskB.Id, updated.DeskId);
-    }
-
-    [Fact]
-    public async Task Update_RejectsSomeoneElsesBooking()
-    {
-        var omarsBooking = AddBooking(_deskA, _omar, Tomorrow);
-
-        await Assert.ThrowsAsync<ForbiddenException>(() =>
-            _service.UpdateAsync(omarsBooking.Id, new SaveBookingRequest(_deskB.Id, Tomorrow), CancellationToken.None));
-    }
-
-    [Fact]
-    public async Task Update_RejectsBookingThatAlreadyHappened()
-    {
-        var pastBooking = AddBooking(_deskA, _sara, Today.AddDays(-1));
-
-        await Assert.ThrowsAsync<BusinessRuleException>(() =>
-            _service.UpdateAsync(pastBooking.Id, new SaveBookingRequest(_deskA.Id, Tomorrow), CancellationToken.None));
-    }
-
-    [Fact]
-    public async Task Update_RejectsMovingToPastDate()
-    {
-        var booking = AddBooking(_deskA, _sara, Tomorrow);
-
-        await Assert.ThrowsAsync<BusinessRuleException>(() =>
-            _service.UpdateAsync(booking.Id, new SaveBookingRequest(_deskA.Id, Today.AddDays(-1)), CancellationToken.None));
-    }
-
-    [Fact]
     public async Task Cancel_RejectsPastBooking()
     {
         var pastBooking = AddBooking(_deskA, _sara, Today.AddDays(-1));

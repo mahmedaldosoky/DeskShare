@@ -26,15 +26,15 @@ internal sealed class BookingRepository(DeskShareDbContext dbContext) : IBooking
             .ToListAsync(cancellationToken);
 
     public Task<bool> IsDeskBookedAsync(
-        Guid deskId, DateOnly date, Guid? excludingBookingId, CancellationToken cancellationToken) =>
+        Guid deskId, DateOnly date, CancellationToken cancellationToken) =>
         dbContext.Bookings.AnyAsync(
-            booking => booking.DeskId == deskId && booking.Date == date && booking.Id != excludingBookingId,
+            booking => booking.DeskId == deskId && booking.Date == date,
             cancellationToken);
 
     public Task<bool> HasEmployeeBookedAsync(
-        Guid employeeId, DateOnly date, Guid? excludingBookingId, CancellationToken cancellationToken) =>
+        Guid employeeId, DateOnly date, CancellationToken cancellationToken) =>
         dbContext.Bookings.AnyAsync(
-            booking => booking.EmployeeId == employeeId && booking.Date == date && booking.Id != excludingBookingId,
+            booking => booking.EmployeeId == employeeId && booking.Date == date,
             cancellationToken);
 
     public Task<bool> DeskHasBookingsFromAsync(Guid deskId, DateOnly fromDate, CancellationToken cancellationToken) =>

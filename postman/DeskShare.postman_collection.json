@@ -120,18 +120,6 @@
           "request": { "method": "GET", "url": "{{baseUrl}}/api/bookings?date={{date}}" }
         },
         {
-          "name": "Change booking",
-          "request": {
-            "method": "PUT",
-            "url": "{{baseUrl}}/api/bookings/{{bookingId}}",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"deskId\": \"{{deskId}}\",\n  \"date\": \"{{date}}\"\n}",
-              "options": { "raw": { "language": "json" } }
-            }
-          }
-        },
-        {
           "name": "Cancel booking",
           "request": { "method": "DELETE", "url": "{{baseUrl}}/api/bookings/{{bookingId}}" }
         }

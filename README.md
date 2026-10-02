@@ -39,10 +39,10 @@ npx newman run postman/DeskShare.postman_collection.json
 
 | Role | Can do |
 | --- | --- |
-| Employee | See free desks for a date, book one, list upcoming bookings, change date/desk, cancel |
+| Employee | See free desks for a date, book one, list upcoming bookings, cancel |
 | Office Manager | Everything above, plus desk CRUD (code, floor, features) and all bookings for a date |
 
-Business rules: one booking per desk per day; one desk per employee per day; no past dates; employees only change their own bookings; desks with upcoming bookings can't be deleted. Deleted desks are soft-deleted, so past bookings keep their desk and the code can be reused.
+Business rules: one booking per desk per day; one desk per employee per day; no past dates; employees only cancel their own bookings; desks with upcoming bookings can't be deleted. Deleted desks are soft-deleted, so past bookings keep their desk and the code can be reused.
 
 ## Architecture
 
@@ -56,7 +56,7 @@ DeskShare.Api ──► DeskShare.Application ──► DeskShare.Domain
 
 | Project | Responsibility |
 | --- | --- |
-| `Domain` | Plain entities (`Desk`, `Booking`, `Employee`) holding data and simple behaviour (normalise a desk code, reschedule, soft delete). They never throw. All enums live in `Enums.cs` and all field limits (lengths, floor range) in `Constants.cs`. No dependencies. |
+| `Domain` | Plain entities (`Desk`, `Booking`, `Employee`) holding data and simple behaviour (normalise a desk code, soft delete). They never throw. All enums live in `Enums.cs` and all field limits (lengths, floor range) in `Constants.cs`. No dependencies. |
 | `Application` | Use cases (`DeskService`, `BookingService`, `EmployeeProvisioningService`), DTOs with their AutoMapper `MappingProfile`, and the ports it needs (`IDeskRepository`, `IUnitOfWork`, `ICurrentUser`...). |
 | `Infrastructure` | EF Core `DbContext`, entity configurations, repositories, migrations. Implements the Application ports. |
 | `Api` | Thin controllers, authentication/authorization, mapping exceptions to HTTP problem responses. Composition root. |

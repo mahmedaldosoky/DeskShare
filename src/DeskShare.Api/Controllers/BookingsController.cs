@@ -27,10 +27,6 @@ public sealed class BookingsController(BookingService bookingService) : Controll
         return StatusCode(StatusCodes.Status201Created, booking);
     }
 
-    [HttpPut("{id:guid}")]
-    public Task<BookingDto> Update(Guid id, SaveBookingRequest request, CancellationToken cancellationToken) =>
-        bookingService.UpdateAsync(id, request, cancellationToken);
-
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Cancel(Guid id, CancellationToken cancellationToken)
     {

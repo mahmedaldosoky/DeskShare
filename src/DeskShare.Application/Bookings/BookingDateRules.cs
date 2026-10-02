@@ -11,9 +11,9 @@ public static class BookingDateRules
             throw new BusinessRuleException("Bookings cannot be made for past dates.");
     }
 
-    public static void EnsureBookingCanBeChanged(Booking booking, DateOnly today)
+    public static void EnsureBookingCanBeCancelled(Booking booking, DateOnly today)
     {
         if (booking.IsInPast(today))
-            throw new BusinessRuleException("Past bookings cannot be changed.");
+            throw new BusinessRuleException("Past bookings cannot be cancelled.");
     }
 }

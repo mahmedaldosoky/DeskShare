@@ -48,14 +48,14 @@ internal sealed class InMemoryBookingRepository(InMemoryStore store) : IBookingR
         Task.FromResult<IReadOnlyList<Booking>>(store.Bookings.Where(booking => booking.Date == date).ToList());
 
     public Task<bool> IsDeskBookedAsync(
-        Guid deskId, DateOnly date, Guid? excludingBookingId, CancellationToken cancellationToken) =>
+        Guid deskId, DateOnly date, CancellationToken cancellationToken) =>
         Task.FromResult(store.Bookings.Any(booking =>
-            booking.DeskId == deskId && booking.Date == date && booking.Id != excludingBookingId));
+            booking.DeskId == deskId && booking.Date == date));
 
     public Task<bool> HasEmployeeBookedAsync(
-        Guid employeeId, DateOnly date, Guid? excludingBookingId, CancellationToken cancellationToken) =>
+        Guid employeeId, DateOnly date, CancellationToken cancellationToken) =>
         Task.FromResult(store.Bookings.Any(booking =>
-            booking.EmployeeId == employeeId && booking.Date == date && booking.Id != excludingBookingId));
+            booking.EmployeeId == employeeId && booking.Date == date));
 
     public Task<bool> DeskHasBookingsFromAsync(Guid deskId, DateOnly fromDate, CancellationToken cancellationToken) =>
         Task.FromResult(store.Bookings.Any(booking => booking.DeskId == deskId && booking.Date >= fromDate));

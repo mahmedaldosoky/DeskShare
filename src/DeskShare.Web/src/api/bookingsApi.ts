@@ -5,6 +5,5 @@ export const bookingsApi = {
   getMine: () => http.get<Booking[]>('/api/bookings/mine'),
   getAllOnDate: (date: string) => http.get<Booking[]>(`/api/bookings?date=${date}`),
   create: (request: SaveBookingRequest) => http.post<Booking>('/api/bookings', request),
-  update: (id: string, request: SaveBookingRequest) => http.put<Booking>(`/api/bookings/${id}`, request),
   cancel: (id: string) => http.delete(`/api/bookings/${id}`),
 };

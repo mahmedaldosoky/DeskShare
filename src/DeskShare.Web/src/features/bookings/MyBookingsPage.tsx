@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import { bookingsApi } from '../../api/bookingsApi';
 import { Alert } from '../../components/Alert';
@@ -7,11 +6,9 @@ import { useAction } from '../../hooks/useAction';
 import { useAsyncData } from '../../hooks/useAsyncData';
 import type { Booking } from '../../types/models';
 import { formatDate } from '../../utils/dates';
-import { EditBookingDialog } from './EditBookingDialog';
 
 export function MyBookingsPage() {
   const myBookings = useAsyncData(() => bookingsApi.getMine(), []);
-  const [bookingToEdit, setBookingToEdit] = useState<Booking>();
   const cancellation = useAction();
 
   async function cancel(booking: Booking) {
@@ -19,11 +16,6 @@ export function MyBookingsPage() {
 
     const succeeded = await cancellation.run(() => bookingsApi.cancel(booking.id));
     if (succeeded) myBookings.reload();
-  }
-
-  function onBookingSaved() {
-    setBookingToEdit(undefined);
-    myBookings.reload();
   }
 
   return (
@@ -56,9 +48,6 @@ export function MyBookingsPage() {
                 </td>
                 <td>{booking.deskFloor}</td>
                 <td className="data-table__actions">
-                  <button type="button" className="button button--small button--link" onClick={() => setBookingToEdit(booking)}>
-                    Change
-                  </button>
                   <button
                     type="button"
                     className="button button--small button--danger"
@@ -72,10 +61,6 @@ export function MyBookingsPage() {
             ))}
           </tbody>
         </table>
-      )}
-
-      {bookingToEdit && (
-        <EditBookingDialog booking={bookingToEdit} onClose={() => setBookingToEdit(undefined)} onSaved={onBookingSaved} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-using DeskShare.Domain;
+using DeskShare.Api.Authentication;
 
 namespace DeskShare.Api.Contracts;
 

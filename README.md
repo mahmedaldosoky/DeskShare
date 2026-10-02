@@ -31,10 +31,10 @@ It is tested with **Auth0** and works with any OIDC provider (ADFS, Entra ID, Ke
 ```bash
 cd src/DeskShare.Api
 dotnet user-secrets set "Authentication:Mode" "Oidc"
-dotnet user-secrets set "Authentication:Oidc:Authority" "https://<tenant>.auth0.com/"
-dotnet user-secrets set "Authentication:Oidc:ClientId" "<client id>"
-dotnet user-secrets set "Authentication:Oidc:ClientSecret" "<client secret>"
-dotnet user-secrets set "Authentication:Oidc:ClaimTypes:Groups" "https://deskshare.app/groups"
+dotnet user-secrets set "Authentication:Authority" "https://<tenant>.auth0.com/"
+dotnet user-secrets set "Authentication:ClientId" "<client id>"
+dotnet user-secrets set "Authentication:ClientSecret" "<client secret>"
+dotnet user-secrets set "Authentication:GroupsClaim" "https://deskshare.app/groups"
 ```
 
 Auth0 setup:

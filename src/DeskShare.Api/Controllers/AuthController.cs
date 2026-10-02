@@ -2,7 +2,6 @@ using System.Security.Claims;
 using DeskShare.Api.Authentication;
 using DeskShare.Api.Contracts;
 using DeskShare.Application.Employees;
-using DeskShare.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -15,9 +14,9 @@ namespace DeskShare.Api.Controllers;
 [ApiController]
 [Route("api/auth")]
 [AllowAnonymous]
-public sealed class AuthController(IOptions<DeskShareAuthenticationOptions> options) : ControllerBase
+public sealed class AuthController(IOptions<AuthSettings> settings) : ControllerBase
 {
-    private SignInMode Mode => options.Value.Mode;
+    private SignInMode Mode => settings.Value.Mode;
 
     [HttpGet("session")]
     public SessionResponse GetSession()
@@ -45,15 +44,14 @@ public sealed class AuthController(IOptions<DeskShareAuthenticationOptions> opti
     [HttpPost("dev-login")]
     public async Task<IActionResult> DevelopmentLogin(
         DevelopmentSignInRequest request,
-        [FromServices] DeskSharePrincipalFactory principalFactory,
+        [FromServices] UserSignIn userSignIn,
         CancellationToken cancellationToken)
     {
         if (Mode != SignInMode.Development)
             return NotFound();
 
         var identity = new ExternalIdentity($"dev:{request.Email.ToLowerInvariant()}", request.Email, request.DisplayName);
-        var groups = request.IsOfficeManager ? options.Value.OfficeManagerGroups : [];
-        var principal = await principalFactory.CreateAsync(identity, groups, cancellationToken);
+        var principal = await userSignIn.CreatePrincipalAsync(identity, request.IsOfficeManager, cancellationToken);
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         return NoContent();
@@ -62,12 +60,13 @@ public sealed class AuthController(IOptions<DeskShareAuthenticationOptions> opti
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
-        if (Mode != SignInMode.Oidc)
+        if (Mode == SignInMode.Development)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("/");
         }
 
+        // Sign out of DeskShare (cookie) and of the identity provider, so SSO doesn't sign the user straight back in.
         var properties = new AuthenticationProperties { RedirectUri = "/" };
         return SignOut(properties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
     }

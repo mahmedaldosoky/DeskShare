@@ -29,7 +29,7 @@ dotnet test        # unit tests + API integration tests
 
 ### Postman
 
-Import [postman/DeskShare.postman_collection.json](postman/DeskShare.postman_collection.json) and run it with the Collection Runner while the API is running. It signs in as a manager and two employees and exercises desk and booking CRUD and every business rule (with assertions), then cleans up after itself. It also runs headless:
+Import [postman/DeskShare.postman_collection.json](postman/DeskShare.postman_collection.json) while the API is running. It has one request per endpoint: send "Sign in" first, then any other request. Run top to bottom, it creates a desk, books it, and cleans up after itself. It also runs headless:
 
 ```bash
 npx newman run postman/DeskShare.postman_collection.json

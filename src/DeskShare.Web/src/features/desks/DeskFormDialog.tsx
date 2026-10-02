@@ -55,7 +55,7 @@ export function DeskFormDialog({ desk, onClose, onSaved }: DeskFormDialogProps) 
             className="field__input"
             type="number"
             min={0}
-            max={200}
+            max={10}
             value={form.floor}
             required
             onChange={(event) => setForm({ ...form, floor: event.target.valueAsNumber })}
